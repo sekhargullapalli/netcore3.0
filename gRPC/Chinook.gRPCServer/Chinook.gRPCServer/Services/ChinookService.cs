@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ChinookProtoBuffer;
 using Chinook.Data;
@@ -16,6 +14,7 @@ namespace Chinook.gRPCServer
         {
             datacontext = _datacontext;
         }
+
         public override Task<Artists> GetAllArtists(Empty request, ServerCallContext context)
         {
             Artists artists = new Artists();
@@ -79,9 +78,52 @@ namespace Chinook.gRPCServer
             return Task.FromResult(employees);
         }
 
-
-
-
-
+        public override Task<Albums> GetAlbumsByArtist(Artists.Types.Artist request, ServerCallContext context)
+        {
+            int id = request.ArtistID;
+            Albums albums = new Albums();
+            foreach (var album in datacontext.Album.Where(a=>a.ArtistId==id))
+                albums.AlbumCollection.Add(new Albums.Types.Album()
+                {
+                    AlbumID = (int)album.AlbumId,
+                    Title = album.Title,
+                    Artist = new Artists.Types.Artist()
+                    {
+                        ArtistID = (int)album.Artist.ArtistId,
+                        Name = album.Artist.Name
+                    }
+                });
+            return Task.FromResult(albums);
+        }
+        public override Task<Tracks> GetTracksByAlbum(Albums.Types.Album request, ServerCallContext context)
+        {
+            int id = request.AlbumID;
+            Tracks tracks = new Tracks();
+            foreach (var track in datacontext.Track.Where(t => t.AlbumId == id))
+                tracks.TrackCollection.Add(new Tracks.Types.Track()
+                {
+                    TrackID=(int)track.TrackId,
+                    Name=track.Name,
+                    Composer=track.Composer,
+                    MilliSeconds = (ulong)track.Milliseconds,
+                    SizeinMB = (ulong)(track.Bytes??0/1048576)              
+                });
+            return Task.FromResult(tracks);
+        }
+        public override Task<Tracks> GetTracksByGenre(Genres.Types.Genre request, ServerCallContext context)
+        {
+            int id = request.GenreID;
+            Tracks tracks = new Tracks();
+            foreach (var track in datacontext.Track.Where(t => t.GenreId == id))
+                tracks.TrackCollection.Add(new Tracks.Types.Track()
+                {
+                    TrackID = (int)track.TrackId,
+                    Name = track.Name,
+                    Composer = track.Composer,
+                    MilliSeconds = (ulong)track.Milliseconds,
+                    SizeinMB = (ulong)(track.Bytes ?? 0 / 1048576)
+                });
+            return Task.FromResult(tracks);
+        }
     }
 }
