@@ -1,4 +1,4 @@
-<img src="grpc-logo.png"  width='290' height='140'>
+<img src="grpc-logo-blk.png"  width='290' height='140'>
 
 # gRPC in .NET CORE 3.0 Preview
 
