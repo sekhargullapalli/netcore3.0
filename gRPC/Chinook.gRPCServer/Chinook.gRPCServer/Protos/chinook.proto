@@ -60,7 +60,8 @@ service ChinookPBS {
 	rpc GetAllAlbums (google.protobuf.Empty) returns (Albums);
 	rpc GetAllEmployees (google.protobuf.Empty) returns (StoreEmployees);
 
-	rpc GetTracksByArtist (Artists.Artist) returns (Albums);
-	rpc GetTracksByAlbum (Albums.Album) returns (Albums);
-	rpc GetTracksByGenre (Genres.Genre) returns (Albums);
+	rpc GetAlbumsByArtist (Artists.Artist) returns (Albums);
+	rpc GetAlbumsByGenre (Genres.Genre) returns (Albums);
+	rpc GetTracksByAlbum (Albums.Album) returns (Tracks);
+	
 }
