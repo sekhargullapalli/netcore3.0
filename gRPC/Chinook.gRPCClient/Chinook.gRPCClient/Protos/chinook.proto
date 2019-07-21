@@ -1,0 +1,67 @@
+﻿syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+option csharp_namespace = "ChinookProtoBuffer";
+package Chinook;
+
+message Artists{
+	message Artist {
+		int32 ArtistID = 1;
+		string Name = 2;	
+	}
+	repeated Artist ArtistCollection = 1;
+}
+message MediaTypes {
+	message MediaType {
+		int32 MediaTypeID = 1;
+		string Name = 3;
+	}
+	repeated MediaType MediaTypeCollection = 1;
+}
+message Genres{
+	message Genre {
+		int32 GenreID = 1;
+		string Name = 2;	
+	}
+	repeated Genre GenreCollection =1;
+}
+message Albums {
+	message Album {
+		int32 AlbumID = 1;
+		string Title = 2;
+		Artists.Artist Artist = 3;		
+	}
+	repeated Album AlbumCollection = 1;
+}
+message Tracks {
+	message Track {
+		int32 TrackID = 1;
+		string Name = 2;			
+		string Composer = 3;
+		uint64 MilliSeconds = 4;
+		uint64 SizeinMB = 5;
+	}
+	repeated Track TrackCollection = 1;
+}
+message StoreEmployees {
+	message StoreEmployee {
+		string FirstName = 1;	
+		string LastName = 2;
+		google.protobuf.Timestamp HireDate = 3;
+		google.protobuf.Timestamp BirthDay = 4;
+	}
+	repeated StoreEmployee EmployeeCollection = 1;
+}
+service ChinookPBS {
+
+	rpc GetAllArtists (google.protobuf.Empty) returns (Artists);
+	rpc GetAllMediaTypes (google.protobuf.Empty) returns (MediaTypes);
+	rpc GetAllGenres (google.protobuf.Empty) returns (Genres);
+	rpc GetAllAlbums (google.protobuf.Empty) returns (Albums);
+	rpc GetAllEmployees (google.protobuf.Empty) returns (StoreEmployees);
+
+	rpc GetAlbumsByArtist (Artists.Artist) returns (Albums);
+	rpc GetTracksByGenre (Genres.Genre) returns (Tracks);
+	rpc GetTracksByAlbum (Albums.Album) returns (Tracks);
+	
+}

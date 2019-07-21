@@ -14,7 +14,6 @@ namespace Chinook.gRPCServer
         {
             datacontext = _datacontext;
         }
-
         public override Task<Artists> GetAllArtists(Empty request, ServerCallContext context)
         {
             Artists artists = new Artists();

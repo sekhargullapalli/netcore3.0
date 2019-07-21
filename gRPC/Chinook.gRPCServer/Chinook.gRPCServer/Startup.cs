@@ -18,7 +18,7 @@ namespace Chinook.gRPCServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+            }            
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

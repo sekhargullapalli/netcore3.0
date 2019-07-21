@@ -10,7 +10,12 @@
     <PackageReference Include="Grpc.Tools" Version="1.21.0" PrivateAssets="All" />
     <Protobuf Include="Protos\chinook.proto" GrpcServices="Server" />
     <Content Include="@(Protobuf)" />
+    <Content Include="Chinook_Sqlite.sqlite">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Remove="@(Protobuf)" />
+    <None Remove="Chinook_Sqlite.sqlite" />
   </ItemGroup>
 
   <ItemGroup>
