@@ -4,6 +4,7 @@ using ChinookProtoBuffer;
 using Chinook.Data;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chinook.gRPCServer
 {
@@ -14,6 +15,7 @@ namespace Chinook.gRPCServer
         {
             datacontext = _datacontext;
         }
+
         public override Task<Artists> GetAllArtists(Empty request, ServerCallContext context)
         {
             Artists artists = new Artists();
@@ -50,7 +52,8 @@ namespace Chinook.gRPCServer
         public override Task<Albums> GetAllAlbums(Empty request, ServerCallContext context)
         {
             Albums albums = new Albums();
-            foreach (var album in datacontext.Album)
+            foreach (var album in datacontext.Album.Include(a=>a.Artist))
+            {
                 albums.AlbumCollection.Add(new Albums.Types.Album()
                 {
                     AlbumID = (int)album.AlbumId,
@@ -58,9 +61,10 @@ namespace Chinook.gRPCServer
                     Artist = new Artists.Types.Artist()
                     {
                         ArtistID = (int)album.Artist.ArtistId,
-                        Name=album.Artist.Name
+                        Name = album.Artist.Name
                     }
                 });
+            }
             return Task.FromResult(albums);
         }
         public override Task<StoreEmployees> GetAllEmployees(Empty request, ServerCallContext context)
@@ -76,6 +80,7 @@ namespace Chinook.gRPCServer
                 });
             return Task.FromResult(employees);
         }
+
 
         public override Task<Albums> GetAlbumsByArtist(Artists.Types.Artist request, ServerCallContext context)
         {

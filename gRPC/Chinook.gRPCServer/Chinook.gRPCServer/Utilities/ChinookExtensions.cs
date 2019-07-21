@@ -7,7 +7,7 @@ namespace Chinook.gRPCServer
 {
     public static class ChinookExtensions
     {
-        public static DateTime ConvertToDateTime (this byte[] bytes) =>
-            DateTime.Parse(System.Text.Encoding.UTF8.GetString(bytes));
+        public static DateTime ConvertToDateTime(this byte[] bytes) =>
+            DateTime.Parse(System.Text.Encoding.UTF8.GetString(bytes)).ToUniversalTime();
     }
 }
