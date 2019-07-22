@@ -90,7 +90,9 @@ and then converted to `Google.Protobuf.WellKnownTypes.Timestamp` using
 ```
 
 # 4. References
+
 [1] gRPC.io https://grpc.io/
+
 [2] Protocol Buffer Developer Guide https://developers.google.com/protocol-buffers/
 
 
