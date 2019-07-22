@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using System;
 using System.Threading.Tasks;
+using ChinookProtoBuffer;
 
 namespace Chinook.gRPCClient
 {
@@ -33,7 +34,7 @@ namespace Chinook.gRPCClient
                     Console.WriteLine($"{employee.FirstName}\t{employee.LastName}\t{employee.BirthDay}");
             }
 
-            bool listAlbums = true;
+            bool listAlbums = false;
             if (listAlbums)
             {
                 var albumns = await client.GetAllAlbumsAsync(new Google.Protobuf.WellKnownTypes.Empty());
@@ -41,9 +42,17 @@ namespace Chinook.gRPCClient
                     Console.WriteLine($"{album.Artist.Name}\t{album.Title}");
             }
 
-
-
-
+            //142     The Rolling Stones
+            bool listAlbumsbyArtist = true;
+            if (listAlbumsbyArtist)
+            {
+                var albumns = await client.GetAlbumsByArtistAsync(new Artists.Types.Artist() {
+                    ArtistID = 142,
+                    Name = "The Rolling Stones"
+                });
+                foreach (var album in albumns.AlbumCollection)
+                    Console.WriteLine($"{album.Artist.Name}\t{album.Title}");
+            }
 
             Console.WriteLine("Done!");
             Console.ReadLine();

@@ -53,7 +53,10 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
-**/Properties/launchSettings.json
+
+## Launch settings commented since gRPC asp.net core is in preview
+## **/Properties/launchSettings.json
+
 
 *_i.c
 *_p.c

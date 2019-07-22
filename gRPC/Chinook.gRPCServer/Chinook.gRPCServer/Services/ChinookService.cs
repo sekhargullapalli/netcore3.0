@@ -86,7 +86,7 @@ namespace Chinook.gRPCServer
         {
             int id = request.ArtistID;
             Albums albums = new Albums();
-            foreach (var album in datacontext.Album.Where(a=>a.ArtistId==id))
+            foreach (var album in datacontext.Album.Include(a => a.Artist).Where(a=>a.ArtistId==id))
                 albums.AlbumCollection.Add(new Albums.Types.Album()
                 {
                     AlbumID = (int)album.AlbumId,
@@ -103,7 +103,7 @@ namespace Chinook.gRPCServer
         {
             int id = request.AlbumID;
             Tracks tracks = new Tracks();
-            foreach (var track in datacontext.Track.Where(t => t.AlbumId == id))
+            foreach (var track in datacontext.Track.Include(t => t.Album).Where(t => t.AlbumId == id))
                 tracks.TrackCollection.Add(new Tracks.Types.Track()
                 {
                     TrackID=(int)track.TrackId,
@@ -118,7 +118,7 @@ namespace Chinook.gRPCServer
         {
             int id = request.GenreID;
             Tracks tracks = new Tracks();
-            foreach (var track in datacontext.Track.Where(t => t.GenreId == id))
+            foreach (var track in datacontext.Track.Include(t => t.Genre).Where(t => t.GenreId == id))
                 tracks.TrackCollection.Add(new Tracks.Types.Track()
                 {
                     TrackID = (int)track.TrackId,
