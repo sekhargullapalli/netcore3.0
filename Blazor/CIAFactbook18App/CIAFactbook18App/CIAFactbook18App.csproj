@@ -9,4 +9,8 @@
     <ProjectReference Include="..\CIAFactbook18App.Data\CIAFactbook18App.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\resources\images\flags\" />
+  </ItemGroup>
+
 </Project>
