@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CIAFactbook18App.Data\CIAFactbook18App.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="secrets.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

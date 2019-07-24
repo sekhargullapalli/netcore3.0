@@ -1,56 +1,69 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using System.Collections.Generic;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace CIAFactbook18App.Data
 {
-    //Entity classes for cosmos db
-
-    public class ComparableField
+    //Entity classes for cosmos db   
+    public class CountryEntity
     {
         [BsonId]
-        public string Id { get; set; }
-        [BsonElement]
+        public ObjectId ID { get; set; }
+        [BsonElement("CountryCode")]
+        public string CountryCode { get; set; }
+        [BsonElement("CountryData")]
+        public List<ProfileEntity> CountryData { get; set; }
+    }
+    public class ComparableFields
+    {
+        [BsonId]
+        public ObjectId ID { get; set; }
+        [BsonElement("FieldName")]
         public string FieldName { get; set; }
-        [BsonElement]
+        [BsonElement("Category")]
         public string Category { get; set; }
-        [BsonElement]
+        [BsonElement("IsDescending")]
         public bool IsDescending { get; set; }
     }
-    public class FieldDefinition
+    public class NotesAndDefs
     {
         [BsonId]
-        public string Id { get; set; }
-        [BsonElement]
+        public ObjectId ID { get; set; }
+        [BsonElement("FieldName")]
         public string FieldName { get; set; }
-        [BsonElement]
+        [BsonElement("Definition")]
         public string Definition { get; set; }
     }
+
     public class Country
     {
         [BsonId]
-        public string Id { get; set; }
-        [BsonElement]
+        public ObjectId ID { get; set; }
+        [BsonElement("Name")]
         public string Name { get; set; }
-        [BsonElement]
+        [BsonElement("GEC")]
         public string GEC { get; set; }
-        [BsonElement]
+        [BsonElement("ISO_3166_1_Alpha2")]
         public string ISO_3166_1_Alpha2 { get; set; }
-        [BsonElement]
+        [BsonElement("ISO_3166_1_Alpha3")]
         public string ISO_3166_1_Alpha3 { get; set; }
-        [BsonElement]
+        [BsonElement("ISO_3166_1_Numeric")]
         public string ISO_3166_1_Numeric { get; set; }
-        [BsonElement]
+        [BsonElement("STANAG")]
         public string STANAG { get; set; }
-        [BsonElement]
+        [BsonElement("Internet")]
         public string Internet { get; set; }
-        [BsonElement]
+        [BsonElement("Comment")]
         public string Comment { get; set; }
-        [BsonElement]
+        [BsonElement("Flagfile")]
         public string Flagfile { get; set; }
-        [BsonElement]
+        [BsonElement("AnthemFile")]
         public string AnthemFile { get; set; }
-        [BsonElement]
+        [BsonElement("Datafile")]
         public string Datafile { get; set; }
     }
 
-    
+
 }
