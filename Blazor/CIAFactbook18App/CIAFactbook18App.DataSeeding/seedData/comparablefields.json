@@ -1,0 +1,387 @@
+[
+  {
+    "FieldName": "Area",
+    "Category": "Geography",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Population",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Median age",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Population growth rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Birth rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Death rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Net migration rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Maternal mortality rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Infant mortality rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Life expectancy at birth",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Total fertility rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Health expenditures",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "HIV/AIDS - adult prevalence rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "HIV/AIDS - people living with HIV/AIDS",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "HIV/AIDS - deaths",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Obesity - adult prevalence rate",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Children under the age of 5 years underweight",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Education expenditures",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Unemployment, youth ages 15-24",
+    "Category": "People and Society",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "GDP (purchasing power parity)",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "GDP - real growth rate",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "GDP - per capita (PPP)",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Gross national saving",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Industrial production growth rate",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Labor force",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Unemployment rate",
+    "Category": "Economy",
+    "IsDescending": false
+  },
+  {
+    "FieldName": "Distribution of family income - Gini index",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Taxes and other revenues",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Budget surplus (+) or deficit (-)",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Public debt",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Inflation rate (consumer prices)",
+    "Category": "Economy",
+    "IsDescending": false
+  },
+  {
+    "FieldName": "Central bank discount rate",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Commercial bank prime lending rate",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Stock of narrow money",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Stock of broad money",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Stock of domestic credit",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Market value of publicly traded shares",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Current account balance",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Exports",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Imports",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Reserves of foreign exchange and gold",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Debt - external",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Stock of direct foreign investment - at home",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Stock of direct foreign investment - abroad",
+    "Category": "Economy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - production",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - consumption",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - exports",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - imports",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - installed generating capacity",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - from fossil fuels",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - from nuclear fuels",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - from hydroelectric plants",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Electricity - from other renewable sources",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Crude oil - production",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Crude oil - exports",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Crude oil - imports",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Crude oil - proved reserves",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Refined petroleum products - production",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Refined petroleum products - consumption",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Refined petroleum products - exports",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Refined petroleum products - imports",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Natural gas - production",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Natural gas - consumption",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Natural gas - exports",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Natural gas - imports",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Natural gas - proved reserves",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Carbon dioxide emissions from consumption of energy",
+    "Category": "Energy",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Telephones - fixed lines",
+    "Category": "Communications",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Telephones - mobile cellular",
+    "Category": "Communications",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Internet users",
+    "Category": "Communications",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Broadband - fixed subscriptions",
+    "Category": "Communications",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Airports",
+    "Category": "Transportation",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Railways",
+    "Category": "Transportation",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Roadways",
+    "Category": "Transportation",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Waterways",
+    "Category": "Transportation",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Merchant marine",
+    "Category": "Transportation",
+    "IsDescending": true
+  },
+  {
+    "FieldName": "Military expenditures",
+    "Category": "Military and Security",
+    "IsDescending": true
+  }
+]

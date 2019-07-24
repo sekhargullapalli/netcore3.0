@@ -54,6 +54,10 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+## Secret files
+secrets.json
+
+
 ## Launch settings commented since gRPC asp.net core is in preview
 ## **/Properties/launchSettings.json
 
