@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using CIAFactbook18App.Data;
 using System.Threading;
 using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace CIAFactbook18App.DataSeeding
 {
@@ -14,7 +15,12 @@ namespace CIAFactbook18App.DataSeeding
     {      
         static void Main(string[] args)
         {
+
+            #region Seeding JSON data to cosmos db
+
             IMongoDatabase database = getCIAFactbook18DB();
+
+            //Commented to prevent re-seeding
 
             //SeedCountries(database);
             //ReadCountries(database);
@@ -27,6 +33,20 @@ namespace CIAFactbook18App.DataSeeding
 
             //SeedCountryDetails(database);
             //ReadCountryDetails(database);
+
+            #endregion Seeding JSON data to cosmos db
+
+            #region Saving national anthem audio files to data store
+
+            //Commented to prevent re-seeding of storage account
+
+
+            //AzureBlbStorageService blbStorage = getStorageService();
+            //string containername = "anthemscontainer";
+            //string directory = @"C:\Users\sekha\Desktop\audios\original";            
+            //UploadAnthemFiles(blbStorage, containername, directory);
+
+            #endregion Saving national anthem audio files to data store
 
             Console.WriteLine("Done!");
         }
@@ -45,6 +65,15 @@ namespace CIAFactbook18App.DataSeeding
             settings.SslSettings = new SslSettings() { EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12 };
             var mongoClient = new MongoClient(settings);
             return mongoClient.GetDatabase("ciafactbook18");
+        }
+        static AzureBlbStorageService getStorageService()
+        {
+            var builder = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
+            var configuration = builder.Build();
+            string connectionString = configuration["AzureBlbStorage"];
+            return new AzureBlbStorageService(connectionString);
         }
 
         private static void SeedCountries(IMongoDatabase database)
@@ -135,6 +164,18 @@ namespace CIAFactbook18App.DataSeeding
             {
                 Console.WriteLine($"{item.ID}:  {item.CountryCode}");
                 Thread.Sleep(100);
+            }
+        }
+
+        private static void UploadAnthemFiles(AzureBlbStorageService blbStorage, string containername, string directory)
+        {
+            var files = new DirectoryInfo(directory).EnumerateFiles();
+            foreach (var file in files)
+            {
+                string filename = file.Name;
+                Console.WriteLine($"Uploading {filename}");
+                Task uploadtask = blbStorage.UploadFile(containername, filename, File.ReadAllBytes(file.FullName));
+                uploadtask.Wait();
             }
         }
 
