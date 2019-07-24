@@ -5,4 +5,8 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CIAFactbook18App.Data\CIAFactbook18App.Data.csproj" />
+  </ItemGroup>
+
 </Project>
