@@ -15,6 +15,7 @@ namespace CIAFactbook18App.Data
         [JsonConverter(typeof(StringEnumConverter))]
         [BsonRepresentation(BsonType.String)]
         public ProfileEntityType EntityType { get; set; } = ProfileEntityType.None;
+        public string DocumentType { get; set; } = "ProfileEntity";
         [BsonElement("Key")]
         public string Key { get; set; } = "";
         [BsonElement("Value")]

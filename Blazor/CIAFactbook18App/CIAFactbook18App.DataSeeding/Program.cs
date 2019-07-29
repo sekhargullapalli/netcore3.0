@@ -15,6 +15,7 @@ namespace CIAFactbook18App.DataSeeding
     {      
         static void Main(string[] args)
         {
+            string collectionname = "factbook18context";
 
             #region Seeding JSON data to cosmos db
 
@@ -22,31 +23,19 @@ namespace CIAFactbook18App.DataSeeding
 
             //Commented to prevent re-seeding
 
-            //SeedCountries(database);
-            //ReadCountries(database);
+            //SeedCountries(database,collectionname);
+            //SeedComparableFields(database, collectionname);
+            //SeedNotesandDefs(database, collectionname);
+            //SeedCountryDetails(database, collectionname);
 
-            //SeedComparableFields(database);
-            //ReadComparableFields(database);
-
-            //SeedNotesandDefs(database);
-            //ReadNotesandDefs(database);
-
-            //SeedCountryDetails(database);
-            //ReadCountryDetails(database);
+            //ReadCountries(database, collectionname);
+            //ReadComparableFields(database, collectionname);
+            //ReadNotesandDefs(database, collectionname);
+            ReadCountryDetails(database, collectionname);
 
             #endregion Seeding JSON data to cosmos db
 
-            #region Saving national anthem audio files to data store
 
-            //Commented to prevent re-seeding of storage account
-
-
-            //AzureBlbStorageService blbStorage = getStorageService();
-            //string containername = "anthemscontainer";
-            //string directory = @"C:\Users\sekha\Desktop\audios\original";            
-            //UploadAnthemFiles(blbStorage, containername, directory);
-
-            #endregion Saving national anthem audio files to data store
 
             Console.WriteLine("Done!");
         }
@@ -76,10 +65,10 @@ namespace CIAFactbook18App.DataSeeding
             return new AzureBlbStorageService(connectionString);
         }
 
-        private static void SeedCountries(IMongoDatabase database)
+        private static void SeedCountries(IMongoDatabase database,string collectionname)
         {
             var countries = DataSeed.Seed<List<Country>>(@"./seedData/countrieslist.json");          
-            var countries_collection = database.GetCollection<Country>("countries");
+            var countries_collection = database.GetCollection<Country>(collectionname);
             foreach(var country in countries)
             {
                 Console.WriteLine(country.Name);
@@ -87,20 +76,22 @@ namespace CIAFactbook18App.DataSeeding
                 Thread.Sleep(100);
             }            
         }
-        private static void ReadCountries(IMongoDatabase database)
+        private static void ReadCountries(IMongoDatabase database,string collectionname)
         {
-            var countries_collection = database.GetCollection<Country>("countries");
-            foreach(var item in countries_collection.Find(new BsonDocument()).ToList())
+            var countries_collection = database.GetCollection<Country>(collectionname);
+            FilterDefinition<Country> filter = Builders<Country>.Filter.Eq("DocumentType", "Country");
+            int id = 1;
+            foreach (var item in countries_collection.Find(filter).ToList())
             {
-                Console.WriteLine($"{item.ID}:  {item.Name}");
+                Console.WriteLine($"{id} : {item.ID}:  {item.Name}");id++;                
                 Thread.Sleep(100);
             }
         }
 
-        private static void SeedComparableFields(IMongoDatabase database)
+        private static void SeedComparableFields(IMongoDatabase database, string collectionname)
         {
             var comparablefields = DataSeed.Seed<List<ComparableFields>>(@"./seedData/comparablefields.json");
-            var comparablefields_collection = database.GetCollection<ComparableFields>("comparablefields");
+            var comparablefields_collection = database.GetCollection<ComparableFields>(collectionname);
             foreach (var field in comparablefields)
             {
                 Console.WriteLine(field.FieldName);
@@ -108,20 +99,22 @@ namespace CIAFactbook18App.DataSeeding
                 Thread.Sleep(100);
             }
         }
-        private static void ReadComparableFields(IMongoDatabase database)
+        private static void ReadComparableFields(IMongoDatabase database, string collectionname)
         {            
-            var comparablefields_collection = database.GetCollection<ComparableFields>("comparablefields");
-            foreach (var item in comparablefields_collection.Find(new BsonDocument()).ToList())
+            var comparablefields_collection = database.GetCollection<ComparableFields>(collectionname);
+            FilterDefinition<ComparableFields> filter = Builders<ComparableFields>.Filter.Eq("DocumentType", "ComparableFields");
+            int id = 1;
+            foreach (var item in comparablefields_collection.Find(filter).ToList())
             {
-                Console.WriteLine($"{item.ID}:  {item.FieldName}");
+                Console.WriteLine($"{id} : {item.ID}:  {item.FieldName}"); id++;
                 Thread.Sleep(100);
             }
         }
 
-        private static void SeedNotesandDefs(IMongoDatabase database)
+        private static void SeedNotesandDefs(IMongoDatabase database, string collectionname)
         {
             var notesanddefs = DataSeed.Seed<Dictionary<string, string>>(@"./seedData/notesanddefs.json");
-            var notesanddefs_collection = database.GetCollection<NotesAndDefs>("notesanddefs");
+            var notesanddefs_collection = database.GetCollection<NotesAndDefs>(collectionname);
             foreach (KeyValuePair<string, string> kvp in notesanddefs)
             {
                 notesanddefs_collection.InsertOne(new NotesAndDefs()
@@ -132,20 +125,22 @@ namespace CIAFactbook18App.DataSeeding
                 Console.WriteLine(kvp.Key);
             }
         }
-        private static void ReadNotesandDefs(IMongoDatabase database)
+        private static void ReadNotesandDefs(IMongoDatabase database, string collectionname)
         {
-            var notesanddefs_collection = database.GetCollection<NotesAndDefs>("notesanddefs");
-            foreach (var item in notesanddefs_collection.Find(new BsonDocument()).ToList())
+            var notesanddefs_collection = database.GetCollection<NotesAndDefs>(collectionname);
+            FilterDefinition<NotesAndDefs> filter = Builders<NotesAndDefs>.Filter.Eq("DocumentType", "NotesAndDefs");
+            int id = 1;
+            foreach (var item in notesanddefs_collection.Find(filter).ToList())
             {
-                Console.WriteLine($"{item.ID}:  {item.FieldName}");
+                Console.WriteLine($"{id} : {item.ID}:  {item.FieldName}"); id++;
                 Thread.Sleep(100);
             }
         }
 
-        private static void SeedCountryDetails(IMongoDatabase database)
+        private static void SeedCountryDetails(IMongoDatabase database, string collectionname)
         {
             var countrydetails = DataSeed.Seed<Dictionary<string, List<ProfileEntity>>>(@"./seedData/countrydetails.json");
-            var countrydetails_collection = database.GetCollection<CountryEntity>("countrydetails");
+            var countrydetails_collection = database.GetCollection<CountryEntity>(collectionname);
             foreach (KeyValuePair<string, List<ProfileEntity>> kvp in countrydetails)
             {
                 Console.WriteLine($"Inserting {kvp.Key}");
@@ -157,16 +152,36 @@ namespace CIAFactbook18App.DataSeeding
                 Thread.Sleep(250);
             }
         }
-        private static void ReadCountryDetails(IMongoDatabase database)
+        private static void ReadCountryDetails(IMongoDatabase database, string collectionname)
         {
-            var countrydetails_collection = database.GetCollection<CountryEntity>("countrydetails");
-            foreach (var item in countrydetails_collection.Find(new BsonDocument()).ToList())
+           
+            var countrydetails_collection = database.GetCollection<CountryEntity>(collectionname);
+            FilterDefinition<CountryEntity> filter = Builders<CountryEntity>.Filter.Eq("DocumentType", "CountryEntity");
+            int id = 1;
+            foreach (var item in countrydetails_collection.Find(filter).ToList())
             {
-                Console.WriteLine($"{item.ID}:  {item.CountryCode}");
+                Console.WriteLine($"{id} :  {item.ID}:  {item.CountryCode}"); id++;
                 Thread.Sleep(100);
             }
         }
 
+        /// <summary>
+        /// Seed the national anthem files to storage
+        /// </summary>
+        static void SeedAnthemFiles()
+        {
+            #region Saving national anthem audio files to data store
+
+            //Commented to prevent re-seeding of storage account
+
+
+            //AzureBlbStorageService blbStorage = getStorageService();
+            //string containername = "anthemscontainer";
+            //string directory = @"C:\Users\sekha\Desktop\audios\original";            
+            //UploadAnthemFiles(blbStorage, containername, directory);
+
+            #endregion Saving national anthem audio files to data store
+        }
         private static void UploadAnthemFiles(AzureBlbStorageService blbStorage, string containername, string directory)
         {
             var files = new DirectoryInfo(directory).EnumerateFiles();

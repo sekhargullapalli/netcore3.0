@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace CIAFactbook18App.Data
 {
@@ -11,6 +9,7 @@ namespace CIAFactbook18App.Data
     {
         [BsonId]
         public ObjectId ID { get; set; }
+        public string DocumentType { get; set; } = "CountryEntity";
         [BsonElement("CountryCode")]
         public string CountryCode { get; set; }
         [BsonElement("CountryData")]
@@ -20,6 +19,7 @@ namespace CIAFactbook18App.Data
     {
         [BsonId]
         public ObjectId ID { get; set; }
+        public string DocumentType { get; set; } = "ComparableFields";
         [BsonElement("FieldName")]
         public string FieldName { get; set; }
         [BsonElement("Category")]
@@ -31,6 +31,7 @@ namespace CIAFactbook18App.Data
     {
         [BsonId]
         public ObjectId ID { get; set; }
+        public string DocumentType { get; set; } = "NotesAndDefs";
         [BsonElement("FieldName")]
         public string FieldName { get; set; }
         [BsonElement("Definition")]
@@ -41,6 +42,7 @@ namespace CIAFactbook18App.Data
     {
         [BsonId]
         public ObjectId ID { get; set; }
+        public string DocumentType { get; set; } = "Country";
         [BsonElement("Name")]
         public string Name { get; set; }
         [BsonElement("GEC")]
@@ -64,6 +66,4 @@ namespace CIAFactbook18App.Data
         [BsonElement("Datafile")]
         public string Datafile { get; set; }
     }
-
-
 }
