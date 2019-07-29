@@ -15,11 +15,20 @@ namespace CIAFactbook18App.DataSeeding
     {      
         static void Main(string[] args)
         {
-            string collectionname = "factbook18context";
 
+            Console.WriteLine("Done!");
+        }
+
+        /// <summary>
+        /// Seed data in JSON files to COSMOSDB using MongoDB driver
+        /// </summary>
+        private static void SeedCosmosDB()
+        {
             #region Seeding JSON data to cosmos db
 
             IMongoDatabase database = getCIAFactbook18DB();
+            string collectionname = "factbook18context";
+
 
             //Commented to prevent re-seeding
 
@@ -31,13 +40,26 @@ namespace CIAFactbook18App.DataSeeding
             //ReadCountries(database, collectionname);
             //ReadComparableFields(database, collectionname);
             //ReadNotesandDefs(database, collectionname);
-            ReadCountryDetails(database, collectionname);
+            //ReadCountryDetails(database, collectionname);
 
             #endregion Seeding JSON data to cosmos db
+        }
+        /// <summary>
+        /// Seed the national anthem files to storage
+        /// </summary>
+        static void SeedAnthemFiles()
+        {
+            #region Saving national anthem audio files to data store
+
+            //Commented to prevent re-seeding of storage account
 
 
+            //AzureBlbStorageService blbStorage = getStorageService();
+            //string containername = "anthemscontainer";
+            //string directory = @"C:\Users\sekha\Desktop\audios\original";            
+            //UploadAnthemFiles(blbStorage, containername, directory);
 
-            Console.WriteLine("Done!");
+            #endregion Saving national anthem audio files to data store
         }
 
         static IMongoDatabase getCIAFactbook18DB()
@@ -87,7 +109,6 @@ namespace CIAFactbook18App.DataSeeding
                 Thread.Sleep(100);
             }
         }
-
         private static void SeedComparableFields(IMongoDatabase database, string collectionname)
         {
             var comparablefields = DataSeed.Seed<List<ComparableFields>>(@"./seedData/comparablefields.json");
@@ -110,7 +131,6 @@ namespace CIAFactbook18App.DataSeeding
                 Thread.Sleep(100);
             }
         }
-
         private static void SeedNotesandDefs(IMongoDatabase database, string collectionname)
         {
             var notesanddefs = DataSeed.Seed<Dictionary<string, string>>(@"./seedData/notesanddefs.json");
@@ -136,7 +156,6 @@ namespace CIAFactbook18App.DataSeeding
                 Thread.Sleep(100);
             }
         }
-
         private static void SeedCountryDetails(IMongoDatabase database, string collectionname)
         {
             var countrydetails = DataSeed.Seed<Dictionary<string, List<ProfileEntity>>>(@"./seedData/countrydetails.json");
@@ -163,25 +182,7 @@ namespace CIAFactbook18App.DataSeeding
                 Console.WriteLine($"{id} :  {item.ID}:  {item.CountryCode}"); id++;
                 Thread.Sleep(100);
             }
-        }
-
-        /// <summary>
-        /// Seed the national anthem files to storage
-        /// </summary>
-        static void SeedAnthemFiles()
-        {
-            #region Saving national anthem audio files to data store
-
-            //Commented to prevent re-seeding of storage account
-
-
-            //AzureBlbStorageService blbStorage = getStorageService();
-            //string containername = "anthemscontainer";
-            //string directory = @"C:\Users\sekha\Desktop\audios\original";            
-            //UploadAnthemFiles(blbStorage, containername, directory);
-
-            #endregion Saving national anthem audio files to data store
-        }
+        }        
         private static void UploadAnthemFiles(AzureBlbStorageService blbStorage, string containername, string directory)
         {
             var files = new DirectoryInfo(directory).EnumerateFiles();
