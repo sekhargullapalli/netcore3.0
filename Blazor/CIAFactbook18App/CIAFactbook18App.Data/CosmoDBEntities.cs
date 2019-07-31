@@ -14,7 +14,6 @@ namespace CIAFactbook18App.Data
         public List<Country> Countries { get; set; } = new List<Country>();
         public List<ComparableFields> ComparableFields { get; set; } = new List<ComparableFields>();
         public List<NotesAndDefs> NotesAndDefs { get; set; } = new List<NotesAndDefs>();
-        public List<CountryEntity> CountryDetails { get; set; } = new List<CountryEntity>();
                
         public Factbook18CosmosDbContext(string connectionstring)
         {            
@@ -43,11 +42,18 @@ namespace CIAFactbook18App.Data
             var notesanddefs_collection = database.GetCollection<NotesAndDefs>(collectionname);
             FilterDefinition<NotesAndDefs> filter3 = Builders<NotesAndDefs>.Filter.Eq("DocumentType", "NotesAndDefs");            
             NotesAndDefs = notesanddefs_collection.Find(filter3).ToList();
+            
+        }
 
-            //Reading country details
+        public CountryEntity GetCountryDetails (string CountryCode)
+        {
             var countrydetails_collection = database.GetCollection<CountryEntity>(collectionname);
-            FilterDefinition<CountryEntity> filter4 = Builders<CountryEntity>.Filter.Eq("DocumentType", "CountryEntity");
-            CountryDetails = countrydetails_collection.Find(filter4).ToList();
+            FilterDefinition<CountryEntity> filter = Builders<CountryEntity>.Filter.And(
+                Builders<CountryEntity>.Filter.Eq("DocumentType", "CountryEntity"),
+                Builders<CountryEntity>.Filter.Eq("CountryCode", CountryCode)
+                );
+            var res =  countrydetails_collection.Find(filter).ToList();
+            return (res.Count == 0) ? null : res[0];
         }
     }
     //Entity classes for cosmos db   

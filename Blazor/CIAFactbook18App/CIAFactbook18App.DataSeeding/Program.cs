@@ -15,9 +15,45 @@ namespace CIAFactbook18App.DataSeeding
     {      
         static void Main(string[] args)
         {
-
             Console.WriteLine("Done!");
         }
+
+        #region Testing cosmos db datacontext
+
+        private static void TestingFactbook18CosmosDbContext()
+        {
+            var builder = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
+            var configuration = builder.Build();
+            string connectionString = configuration["CosmosDB"];
+            Factbook18CosmosDbContext context = new Factbook18CosmosDbContext(connectionString);
+
+            Console.WriteLine("Context created ...");
+
+            //Console.WriteLine("Listing countries.........");
+            //foreach (var item in context.Countries)
+            //    Console.WriteLine(item.Name);
+
+            //Console.WriteLine("Loading coparable fields...");
+            //foreach (var item in context.ComparableFields)
+            //    Console.WriteLine(item.FieldName);
+
+            //Console.WriteLine("Loading notes and defs...");
+            //foreach (var item in context.NotesAndDefs)
+            //    Console.WriteLine(item.FieldName);
+
+            Console.WriteLine("Testing GetCountryDetails function ...");
+            string CountryCode = "SV";
+            CountryEntity c = context.GetCountryDetails(CountryCode);
+            if (c!=null)
+                Console.WriteLine(c.CountryData[0].Children[0].Value);
+
+        }
+
+        #endregion Testing cosmos db datacontext
+
+        #region Code for seeding json data to cosmos db and anthem files to data storage
 
         /// <summary>
         /// Seed data in JSON files to COSMOSDB using MongoDB driver
@@ -61,7 +97,6 @@ namespace CIAFactbook18App.DataSeeding
 
             #endregion Saving national anthem audio files to data store
         }
-
         static IMongoDatabase getCIAFactbook18DB()
         {
             //secrets.json contains connections strings for cosmos db and is not in source control
@@ -86,7 +121,6 @@ namespace CIAFactbook18App.DataSeeding
             string connectionString = configuration["AzureBlbStorage"];
             return new AzureBlbStorageService(connectionString);
         }
-
         private static void SeedCountries(IMongoDatabase database,string collectionname)
         {
             var countries = DataSeed.Seed<List<Country>>(@"./seedData/countrieslist.json");          
@@ -195,10 +229,10 @@ namespace CIAFactbook18App.DataSeeding
             }
         }
 
-
-
+        #endregion Code for seeding json data to cosmos db and anthem files to data storage
 
     }
+
     class DataSeed
     {
         public static T Seed<T>(string localjsonpath)
