@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="signalr.js"></script>
+    <script src="gauge.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+
+    <title>Signal R Mobile Client</title>
+
+    <style>
+        .titlebar {
+            width: 100%;
+            color: lightskyblue;
+            margin-bottom: 25px;
+            margin-top: 25px;
+            font-family: 'Shadows Into Light', cursive;
+        }
+        .guageCanvas {
+            margin-top: 25px;
+            width: 100%;
+            height: 200px;
+        }
+        .chk {
+
+            margin-top: 25px;
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 3em;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div id="orDisplay" class="center-align titlebar"></div>
+        <canvas id="orGaugeDisplay" class="center-align guageCanvas"></canvas>
+        <div class="center-align chk">
+            <label>
+                <input type="checkbox" class="filled-in" id="srCheck" />
+                <span>Send Data </span>
+            </label>
+        </div>
+    </div>
+    <script>
+        var opts = {
+            angle: 0, 
+            lineWidth: 0.44, 
+            radiusScale: 1, 
+            pointer: {
+                length: 0.6, 
+                strokeWidth: 0.035, 
+                color: '#000000' 
+            },
+            limitMax: true,     
+            limitMin: true,     
+            colorStart: '#6FADCF',   
+            colorStop: '#8FC0DA',    
+            strokeColor: '#E0E0E0',  
+            generateGradient: true,
+            highDpiSupport: true,     
+        };
+
+        var target = document.getElementById('orGaugeDisplay'); 
+        var gauge = new Gauge(target).setOptions(opts); 
+        gauge.maxValue = 90; 
+        gauge.setMinValue(-90);  
+        gauge.animationSpeed = 32; 
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("[YOUR SIGANAL R APP URL HERE]")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+        connection.on("SRMessage", (user, message) => { });
+        connection.start().then(function () { });
+        if ('DeviceOrientationEvent' in window) {
+            window.addEventListener('deviceorientation', deviceOrientationHandler, false);
+        } else {
+            document.getElementById('orDisplay').innerText = 'Device Orientation API not supported.';
+        }
+        
+        var minimumTime = 50; // minimum ms between events
+        var canFireEvent = true;
+
+        function deviceOrientationHandler(eventData) {
+
+            if (canFireEvent) {
+                canFireEvent = false;
+                window.setTimeout(function () {
+                    canFireEvent = true;
+                }, minimumTime);
+
+                var tiltLR = eventData.gamma;
+                var tiltFB = eventData.beta;
+                var dir = eventData.alpha;
+
+                gauge.set(tiltLR); 
+                var content = "<h2>Left Right Angle<br>" + tiltLR.toFixed(2) + "°</h2><br>";
+                document.getElementById('orDisplay').innerHTML = content;
+                var user = "Mobile Client";
+                var message = tiltLR.toFixed(2).toString();
+                var checkBox = document.getElementById("srCheck");
+                if (checkBox.checked == true) {
+                    connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+                }
+            }
+        }
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+
+</html>
