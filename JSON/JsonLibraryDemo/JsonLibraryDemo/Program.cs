@@ -20,7 +20,9 @@ namespace JsonLibraryDemo
 
             //WriteJsonusingUTF8Writer(@$"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\object2.json");
 
-            ExamineJson();
+            //ExamineJson();
+
+            ReadJson(@"StaticFiles/object2.json");
             
             Console.WriteLine("Done!");
         }
@@ -135,7 +137,7 @@ namespace JsonLibraryDemo
         #region Using JsonDocument
         public static void ExamineJson()
         {
-            JsonDocument document = JsonDocument.Parse(File.ReadAllBytes("StaticFiles/object2.json"), new JsonDocumentOptions()
+            JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(@"StaticFiles/object2.json"), new JsonDocumentOptions()
             {
                  AllowTrailingCommas=true,
                  CommentHandling= JsonCommentHandling.Skip,     
@@ -146,5 +148,103 @@ namespace JsonLibraryDemo
             Console.WriteLine(arrayelement.ToString());
         }
         #endregion Using JsonDocument
+
+        #region Using Utf8JsonReader
+        public static void ReadJson(string path)
+        {
+            try
+            {
+                var bytes = File.ReadAllBytes(path);
+                Utf8JsonReader reader = new Utf8JsonReader(bytes, new JsonReaderOptions()
+                {
+                    AllowTrailingCommas = true,
+                    CommentHandling = JsonCommentHandling.Allow
+                });
+                while (reader.Read())
+                {
+                    //Console.WriteLine($"Read {reader.TokenType} at position {reader.TokenStartIndex}");
+
+                    switch (reader.TokenType)
+                    {
+                        case JsonTokenType.PropertyName:
+                            {
+                                Console.Write($"{reader.GetString()}: ");
+                                break;
+                            }
+                        case JsonTokenType.String:
+                            {
+                                if (reader.TryGetGuid(out var guid))
+                                    Console.WriteLine($"{guid} [guid],");
+                                if (reader.TryGetDateTime(out var dt))
+                                    Console.WriteLine($"{dt.ToUniversalTime()} [DateTime],");
+                                else
+                                    Console.WriteLine($"{reader.GetString()} [string],");
+                                break;
+                            }
+                        case JsonTokenType.True:
+                            {
+                                Console.WriteLine("true [boolean],");
+                                break;
+                            }
+                        case JsonTokenType.False:
+                            {
+                                Console.WriteLine("false [boolean],");
+                                break;
+                            }
+                        case JsonTokenType.Null:
+                            {
+                                Console.WriteLine("null [null],");
+                                break;
+                            }
+                        case JsonTokenType.Number:
+                            {
+                                if (reader.TryGetInt32(out var i32))
+                                    Console.WriteLine($"{i32} [int],");
+                                else if (reader.TryGetInt64(out var i64))
+                                    Console.WriteLine($"{i32} [long],");
+                                else if (reader.TryGetDouble(out var d))
+                                    Console.WriteLine($"{d} [double],");
+                                else if (reader.TryGetDecimal(out var dec))
+                                    Console.WriteLine($"{dec} [decimal],");
+                                break;
+                            }
+                        case JsonTokenType.StartArray:
+                            {
+                                Console.WriteLine("[");
+                                break;
+                            }
+                        case JsonTokenType.EndArray:
+                            {
+                                Console.WriteLine("],");
+                                break;
+                            }
+                        case JsonTokenType.StartObject:
+                            {
+                                Console.WriteLine("{");
+                                break;
+                            }
+                        case JsonTokenType.EndObject:
+                            {                                
+                                Console.WriteLine("},");
+                                break;
+                            }
+                        case JsonTokenType.Comment:
+                            {
+                                Console.WriteLine(reader.GetComment());
+                                break;
+                            }
+                    }
+
+                }
+            }
+            catch (JsonException ex)
+            {
+
+                Console.WriteLine($"Error at line {ex.LineNumber} , pos {ex.BytePositionInLine} : {ex.Message}");
+            }
+            
+        }
+
+        #endregion Using Utf8JsonReader
     }
 }
