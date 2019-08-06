@@ -16,7 +16,7 @@
     "three": 3
   },
   "FileData": "\ufeffThis is a sample text file",
-  "AddedProperty1":"This is an added property",
+  "AddedProperty1":"This is an additional property",
   "AddedProperty2":1.23456,
   "AddedProperty3":true,
   "AddedProperty4": [

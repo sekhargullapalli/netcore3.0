@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Buffers;
 using System.Text;
+using System.Linq;
 
 namespace JsonLibraryDemo
 {
@@ -12,17 +12,19 @@ namespace JsonLibraryDemo
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine(Serialize());            
-            //SerializetoUtf8Bytes(@$"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\object.obj");
+            //Console.WriteLine(Serialize());    
+
+            //SerializetoUtf8Bytes(@$"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\object.json");
 
             //DeserializefromUtf8Bytes("StaticFiles/object.json");
 
-            WriteSampleJson();
+            //WriteJsonusingUTF8Writer(@$"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\object2.json");
 
+            ExamineJson();
+            
             Console.WriteLine("Done!");
         }
 
-        #region Serialization 
         public static DemoType GetDemoObject()
         {
             return new DemoType()
@@ -37,7 +39,9 @@ namespace JsonLibraryDemo
                 Dict = new Dictionary<string, int> { { "one", 1 }, { "two", 2 }, { "three", 3 } },
                 FileData = File.ReadAllBytes("StaticFiles/SampleText.txt")
             };
-        }          
+        }
+
+        #region Serialization 
         public static string Serialize()
         {           
             return JsonSerializer.Serialize<DemoType>(GetDemoObject(), new JsonSerializerOptions()
@@ -54,6 +58,7 @@ namespace JsonLibraryDemo
                 AllowTrailingCommas = true,
                 WriteIndented = true,
                 IgnoreNullValues = false,
+                ReadCommentHandling= JsonCommentHandling.Skip
             });
             File.WriteAllBytes(path, bytes);
         }
@@ -89,11 +94,12 @@ namespace JsonLibraryDemo
         #endregion Deserializaton
 
         #region Using UTF8Json Writer
-        public static void WriteSampleJson()
+        public static void WriteJsonusingUTF8Writer(string path)
         {
             var writeOptions = new JsonWriterOptions
             {
                 Indented = true,
+                SkipValidation=false
             };
             var bufferwriter = new ArrayBufferWriter<byte>();
             using (Utf8JsonWriter writer = new Utf8JsonWriter(bufferwriter, writeOptions))
@@ -118,12 +124,27 @@ namespace JsonLibraryDemo
                 writer.WriteString("Name", "InnerObject");
                 writer.WriteBase64String("FileData", File.ReadAllBytes("StaticFiles/SampleText.txt"));
                 writer.WriteEndObject();
+                writer.WriteEndObject();
             }
             string json = Encoding.UTF8.GetString(bufferwriter.WrittenSpan);
             Console.WriteLine(json);
+            File.WriteAllBytes(path,bufferwriter.WrittenSpan.ToArray());
         }
         #endregion Using UTF8Json Writer
 
+        #region Using JsonDocument
+        public static void ExamineJson()
+        {
+            JsonDocument document = JsonDocument.Parse(File.ReadAllBytes("StaticFiles/object2.json"), new JsonDocumentOptions()
+            {
+                 AllowTrailingCommas=true,
+                 CommentHandling= JsonCommentHandling.Skip,     
+            });
+            JsonElement element = document.RootElement;
 
+            var prop = element.TryGetProperty("NumArray", out var arrayelement);
+            Console.WriteLine(arrayelement.ToString());
+        }
+        #endregion Using JsonDocument
     }
 }

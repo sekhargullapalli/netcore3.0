@@ -1,0 +1,19 @@
+{
+  "ID": 1,
+  "ID2": null,
+  "IsValid": true,
+  "CreatedDate": "2019-08-06T03:18:25.6647661+00:00",
+  "NumValue": 1.2345
+  /*Example of a comment*/,
+  "NumArray": [
+    1.23,
+    4.56
+    /*Example of a comment*/,
+    7.89
+  ],
+  "Object": {
+    "ID": 1,
+    "Name": "InnerObject",
+    "FileData": "77u\u002fVGhpcyBpcyBhIHNhbXBsZSB0ZXh0IGZpbGU="
+  }
+}
