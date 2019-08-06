@@ -1,5 +1,3 @@
-# [Under Development]
-
 <img src="signalRDemo.png"  width='360' height='200'>
 
 # Exploring SignalR in ASP.NET Core 3.0 Preview
