@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Buffers;
+using System.Text;
 
 namespace JsonLibraryDemo
 {
@@ -13,7 +15,9 @@ namespace JsonLibraryDemo
             //Console.WriteLine(Serialize());            
             //SerializetoUtf8Bytes(@$"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\object.obj");
 
-            DeserializefromUtf8Bytes("StaticFiles/object.json");
+            //DeserializefromUtf8Bytes("StaticFiles/object.json");
+
+            WriteSampleJson();
 
             Console.WriteLine("Done!");
         }
@@ -58,24 +62,67 @@ namespace JsonLibraryDemo
         #region Deserializaton
         public static void DeserializefromUtf8Bytes(string path)
         {
-            var obj = JsonSerializer.Deserialize<DemoType>(File.ReadAllBytes(path), new JsonSerializerOptions
+            try
             {
-                AllowTrailingCommas = true
-            });
-            //Printing Unmatched Properties
-            Console.WriteLine("Printing unmatched properties during deserialization");
-            foreach (var item in obj.UnMatchedProperties)
-            {
-                Console.WriteLine(item.Key);
-                var element = (JsonElement)item.Value;
-                Console.WriteLine($"Value Kind: {element.ValueKind}");
-                Console.WriteLine($"Value : {element.ToString()}");
-                Console.WriteLine("------------------");
+                var obj = JsonSerializer.Deserialize<DemoType>(File.ReadAllBytes(path), new JsonSerializerOptions
+                {
+                    AllowTrailingCommas = true
+                });
 
+                //Printing Unmatched Properties while deserializing
+                Console.WriteLine("Printing unmatched properties during deserialization");
+                foreach (var item in obj.UnMatchedProperties)
+                {
+                    Console.WriteLine(item.Key);
+                    var element = (JsonElement)item.Value;
+                    Console.WriteLine($"Value Kind: {element.ValueKind}");
+                    Console.WriteLine($"Value : {element.ToString()}");
+                    Console.WriteLine("------------------");
+                }
+            }
+            catch (JsonException ex)
+            {
+                Console.WriteLine($"Error at line {ex.LineNumber} , pos {ex.BytePositionInLine} : {ex.Message}");                   
             }
         }
 
         #endregion Deserializaton
+
+        #region Using UTF8Json Writer
+        public static void WriteSampleJson()
+        {
+            var writeOptions = new JsonWriterOptions
+            {
+                Indented = true,
+            };
+            var bufferwriter = new ArrayBufferWriter<byte>();
+            using (Utf8JsonWriter writer = new Utf8JsonWriter(bufferwriter, writeOptions))
+            {
+                writer.WriteStartObject();
+                writer.WriteNumber("ID", 1);
+                writer.WriteNull("ID2");
+                writer.WriteBoolean("IsValid",true);                  
+                writer.WriteString("CreatedDate", DateTimeOffset.UtcNow);
+                writer.WriteNumber("NumValue", 1.2345);
+                //Example of a comment
+                writer.WriteCommentValue("Example of a comment");
+                writer.WriteStartArray("NumArray");
+                writer.WriteNumberValue(1.23);
+                writer.WriteNumberValue(4.56);
+                writer.WriteCommentValue("Example of a comment");
+
+                writer.WriteNumberValue(7.89);
+                writer.WriteEndArray();
+                writer.WriteStartObject("Object");
+                writer.WriteNumber("ID", 1);
+                writer.WriteString("Name", "InnerObject");
+                writer.WriteBase64String("FileData", File.ReadAllBytes("StaticFiles/SampleText.txt"));
+                writer.WriteEndObject();
+            }
+            string json = Encoding.UTF8.GetString(bufferwriter.WrittenSpan);
+            Console.WriteLine(json);
+        }
+        #endregion Using UTF8Json Writer
 
 
     }
