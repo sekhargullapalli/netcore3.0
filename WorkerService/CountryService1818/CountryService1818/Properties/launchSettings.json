@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "CountryService1818": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

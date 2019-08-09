@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UserSecretsId>dotnet-CountryService1818-79F3382A-B860-4BCF-81A4-667963936E24</UserSecretsId>
+    <OutputType>EXE</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="city.json" />
+    <Content Remove="country.json" />
+    <Content Remove="countrylanguage.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="city.json" />
+    <EmbeddedResource Include="country.json" />
+    <EmbeddedResource Include="countrylanguage.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0-preview7.19362.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.0.0-preview7.19362.4" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo ======================================&#xD;&#xA;echo In order to register the worker as a windows service&#xD;&#xA;echo run the following command as admin from cmd or powershell:&#xD;&#xA;echo sc create $(SolutionName) binPath=$(TargetDir)$(TargetName).exe&#xD;&#xA;echo ======================================" />
+  </Target>
+</Project>
