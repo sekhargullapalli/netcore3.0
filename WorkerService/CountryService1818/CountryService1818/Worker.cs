@@ -24,17 +24,17 @@ namespace CountryService1818
         #region override background service methods
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Country service started (UTC): {DateTimeOffset.UtcNow}");
+            _logger.LogInformation(1818, $"Country service started (UTC): {DateTimeOffset.UtcNow}");
             return base.StartAsync(cancellationToken);
         }
         public override Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Country service stopped (UTC): {DateTimeOffset.UtcNow}");
+            _logger.LogInformation(1818, $"Country service stopped (UTC): {DateTimeOffset.UtcNow}");
             return base.StopAsync(cancellationToken);
         }
         public override void Dispose()
         {
-            _logger.LogInformation($"Country service stopped (UTC): {DateTimeOffset.UtcNow}");
+            _logger.LogInformation(1818, $"Country service stopped (UTC): {DateTimeOffset.UtcNow}");
             base.Dispose();
         }
         #endregion override background service methods
@@ -51,7 +51,7 @@ namespace CountryService1818
                     server = new TcpListener(localAddr, port);
                     //server.Server.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.MaxConnections, 100);
                     server.Start();
-                    _logger.LogInformation("Country Details Service Started ..");
+                    _logger.LogInformation(1818, "Country Details Service Started ..");
                     Byte[] bytes = new Byte[256];
                     String data = null;
                     while (true)
@@ -97,7 +97,7 @@ namespace CountryService1818
 
                             byte[] msg = Encoding.ASCII.GetBytes(replystring.ToString());
                             stream.Write(msg, 0, msg.Length);
-                            _logger.LogInformation($"Sent results for: {qs} [{countries.Count()} matches]");
+                            _logger.LogInformation(1818, $"Sent results for: {qs} [{countries.Count()} matches]");
                         }
                         client.Close();
                     }
